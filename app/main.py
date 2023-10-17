@@ -13,7 +13,7 @@ def get_location(ip, access_key):
 
     try:
         response = requests.get(url)
-        response.raise_for_status()  # Check for request failures
+        response.raise_for_status()
     except requests.RequestException as e:
         print(f"Error in connection: {e}", file=sys.stderr)
         sys.exit(1)
@@ -24,8 +24,7 @@ def get_location(ip, access_key):
     else:
         print("Could not retrieve location data.", file=sys.stderr)
         sys.exit(1)
-
-
+        
 def main():
     if len(sys.argv) != 3:
         print("Usage: ip_query.py [IP address] [API access key]", file=sys.stderr)
@@ -33,12 +32,8 @@ def main():
 
     ip = sys.argv[1]
     access_key = sys.argv[2]
-
     latitude, longitude = get_location(ip, access_key)
-
-    # Print results in a manner that they can be easily piped into another command-line tool
     print(json.dumps({"latitude": latitude, "longitude": longitude}))
-
 
 if __name__ == "__main__":
     main()
