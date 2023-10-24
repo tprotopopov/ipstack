@@ -35,10 +35,14 @@ Before you can run the script in your local environment, you need to set up your
       ```sh
       chmod 600 token
       ```
+      
+    -   Place the token file to /tmp/ directory on your machine.
+   
+ 
 3. **Running the Script**: 
    - Use the following command, replacing `YOUR_IP_ADDRESS` with the actual IP address you wish to query.
     ```sh
-    python main.py YOUR_IP_ADDRESS
+    python3 main.py YOUR_IP_ADDRESS
     ```
    
 ## Docker Container Setup
@@ -48,14 +52,9 @@ Before you can run the script in your local environment, you need to set up your
     docker build -t ipstack .
     ```
 
-- To enhance security, it's recommended to use a token file to store your sensitive information. You can pass this file to the container when you run it. 
+- Run the container with the token file with the following command: 
 
     ```sh
-    docker run -v /path/to/your/token/file:/app/token:ro ipstack python3 main.py YOUR_IP_ADDRESS
+    docker run -v /tmp/token:/app/token:ro ipstack YOUR_IP_ADDRESS
     ```
-  
-- Run the app using the following command:
-
-    ```sh
-    docker run ipstack python3 main.py YOUR_IP_ADDRESS
-    ```
+ 
