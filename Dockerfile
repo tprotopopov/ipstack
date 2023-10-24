@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY app/ .
 
-RUN pip3 install --trusted-host pypi.python.org pip
+RUN pip3 install --upgrade pip
 RUN pip3 install --trusted-host pypi.python.org -r requirements.txt
 
-EXPOSE 80
+ENTRYPOINT ["python3"]
 
-CMD ["python3", "./main.py"]
+CMD ["./main.py"]
