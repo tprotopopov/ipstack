@@ -7,6 +7,4 @@ COPY app/ .
 RUN pip3 install --upgrade pip
 RUN pip3 install --trusted-host pypi.python.org -r requirements.txt
 
-ENTRYPOINT ["python3"]
-
-CMD ["./main.py"]
+ENTRYPOINT ["python3","main.py"]
