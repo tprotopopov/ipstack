@@ -4,6 +4,7 @@ import sys
 import requests
 import json
 import argparse
+import os
 
 
 def get_location(ip, access_key):
@@ -48,8 +49,10 @@ def main():
     args = parser.parse_args()
     ip = args.ip
 
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    token_file_path = os.path.join(script_dir, 'token')
     try:
-        with open('token', 'r') as file:
+        with open(token_file_path, 'r') as file:
             access_key = file.read().strip()
     except FileNotFoundError:
         print("Error: 'token' file not found. Please ensure the 'token' file exists in the application directory.",
