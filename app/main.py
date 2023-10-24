@@ -3,6 +3,7 @@
 import sys
 import requests
 import json
+import argparse
 
 
 def get_location(ip, access_key):
@@ -28,12 +29,38 @@ def get_location(ip, access_key):
 
 
 def main():
-    if len(sys.argv) != 3:
-        print("Usage: ip_query.py [IP address] [API access key]", file=sys.stderr)
+    parser = argparse.ArgumentParser(
+        description="""
+        Query the IPStack API for the geolocation of an IP address.
+        This script requires two inputs:
+        1. An IP address passed directly as a command-line argument.
+        2. The IPStack access key stored in a file named 'token' within the application directory.
+
+        Example usage:
+        python script.py YOUR_IP_ADDRESS
+
+        Replace 'YOUR_IP_ADDRESS' with the actual IP address you wish to query.
+        The script will automatically read the access key from the 'token' file.
+        """,
+        formatter_class=argparse.RawTextHelpFormatter
+    )
+    parser.add_argument('ip', help="The IP address to query")
+    args = parser.parse_args()
+    ip = args.ip
+
+    try:
+        with open('token', 'r') as file:
+            access_key = file.read().strip()
+    except FileNotFoundError:
+        print("Error: 'token' file not found. Please ensure the 'token' file exists in the application directory.",
+              file=sys.stderr)
         sys.exit(1)
 
-    ip = sys.argv[1]
-    access_key = sys.argv[2]
+    if not access_key:
+        print("Error: The 'token' file is empty. Please store the IPStack access key in the 'token' file.",
+              file=sys.stderr)
+        sys.exit(1)
+
     latitude, longitude = get_location(ip, access_key)
     print(json.dumps({"latitude": latitude, "longitude": longitude}))
 
